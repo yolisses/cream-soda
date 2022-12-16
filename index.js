@@ -1,7 +1,7 @@
 import { NodeSSH } from "node-ssh";
-import { PASSWORD, SERVER_SSH_PORT, SERVER_SSH_URL, USERNAME } from "./env";
 import { servers } from "./servers";
 import { tcpStrategies } from "./tcpStrategies";
+import { PASSWORD, SERVER_SSH_PORT, SERVER_SSH_URL, USERNAME } from "./env";
 
 const hostSsh = new NodeSSH();
 const serverSsh = new NodeSSH();
@@ -25,8 +25,7 @@ async function run() {
     port: parseInt(SERVER_SSH_PORT),
   });
 
-  let res;
-  res = await serverSsh.exec("echo", ["it's alive"]);
+  await serverSsh.exec("echo", ["it's alive"], { onStdout });
 
   for (const server of servers) {
     await serverSsh.exec("./setServer.sh", [server], { onStdout });
