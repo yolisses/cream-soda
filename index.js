@@ -21,8 +21,8 @@ async function run() {
   await hostSsh.connect({
     password: PASSWORD,
     username: USERNAME,
-    host: SERVER_SSH_URL,
-    port: parseInt(SERVER_SSH_PORT),
+    host: HOST_SSH_URL,
+    port: parseInt(HOST_SSH_PORT),
   });
 
   await serverSsh.exec("echo", ["it's alive"], { onStdout });
