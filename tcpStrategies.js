@@ -1,0 +1,17 @@
+export const tcpStrategies = [
+  "cubic",
+  "bic",
+  "westwood",
+  "htcp",
+  "hybla",
+  "vegas",
+  "nv",
+  "scalable",
+  "lp",
+  "veno",
+  "yeah",
+  "illinois",
+  "dctcp",
+  "cdg",
+  "bbr",
+];

@@ -1,3 +1,5 @@
+export SERVER_TYPE=$1
+
 if [ "$SERVER_TYPE" = "apache2" ]; then
     echo "changing to apache2";
     service nginx stop;
