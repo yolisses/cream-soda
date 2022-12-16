@@ -1,36 +1,40 @@
 import { NodeSSH } from "node-ssh";
-import { PASSWORD, SERVER_URL, USERNAME } from "./env";
+import { PASSWORD, SERVER_SSH_PORT, SERVER_SSH_URL, USERNAME } from "./env";
+import { servers } from "./servers";
+import { tcpStrategies } from "./tcpStrategies";
 
-const ssh = new NodeSSH();
+const hostSsh = new NodeSSH();
+const serverSsh = new NodeSSH();
+
+function onStdout(buffer) {
+  console.log(buffer.toString());
+}
 
 async function run() {
-  await ssh.connect({
-    port: 13768,
-    host: SERVER_URL,
+  await serverSsh.connect({
     password: PASSWORD,
     username: USERNAME,
+    host: SERVER_SSH_URL,
+    port: parseInt(SERVER_SSH_PORT),
+  });
+
+  await hostSsh.connect({
+    password: PASSWORD,
+    username: USERNAME,
+    host: SERVER_SSH_URL,
+    port: parseInt(SERVER_SSH_PORT),
   });
 
   let res;
-  res = await ssh.exec("echo", ["it's alive"]);
-  res = await ssh.exec("sudo su", [], {
-    stdin: password + "\n",
-    onStdout: (chunk) => console.log(chunk.toString()),
-    execOptions: { pty: true, allowHalfOpen: true },
-  });
-  console.log(res);
-  // await ssh.exec("echo 654123 |sudo -S su", []);
-  res = await ssh.exec(
-    "echo cubic > /proc/sys/net/ipv4/tcp_congestion_control",
-    [],
-    {
-      stdin: password + "\n",
-      execOptions: { pty: true },
+  res = await serverSsh.exec("echo", ["it's alive"]);
+
+  for (const server of servers) {
+    await serverSsh.exec("./setServer.sh", [server], { onStdout });
+    for (const strategy of tcpStrategies) {
+      await serverSsh.exec("./setTcpStrategy.sh", [strategy], { onStdout });
+      await serverSsh.exec("./runTraffic.sh", [], { onStdout });
     }
-  );
-  console.log(res);
-  // await ssh.exec("docker exec -it frosty_mcnulty /bin/bash", []);
-  ssh.dispose();
+  }
 }
 
 run();
