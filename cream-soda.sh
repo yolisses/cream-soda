@@ -36,12 +36,12 @@ update_server() {
 servers=("nginx" "apache2")
 strategies=("cubic" "bic" "westwood" "htcp" "hybla" "vegas" "nv" "scalable" "lp" "veno" "yeah" "illinois" "dctcp" "cdg" "bbr")
 
+SERVER_URL=192.168.1.244/djset3.mp3
+HOST_SSH=djr@192.168.1.210
+
 echo "running with:"
 echo "HOST_SSH=$HOST_SSH"
 echo "SERVER_URL=$SERVER_URL"
-
-SERVER_URL=192.168.1.244/djset3.mp3
-HOST_SSH=djr@192.168.1.210
 
 for server in ${servers[@]}; do
 	update_server $server
