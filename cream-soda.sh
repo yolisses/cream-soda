@@ -4,9 +4,10 @@ run_traffic() {
 	for index in ${!clients[@]}; do
 		c=${clients[$index]}
 		n=${requests[$index]}
-		filename=cubic_${TCP_STRATEGY}_${SERVER_TYPE}_escalonamento${index+1}
-		ssh $HOST_SSH ab -c ${c} -n ${n} -e $filename.csv $SERVER_URL >${filename}_out.txt
-		echo "ssh $HOST_SSH ab -c ${c} -n ${n} -e $filename.csv $SERVER_URL >${filename}_out.txt"
+		filename="cubic_${TCP_STRATEGY}_${SERVER_TYPE}_escalonamento${index+ 1}"
+		command="ssh $HOST_SSH ab -c $c -n $n -e $filename.csv $SERVER_URL >${filename}_out.txt"
+		echo $command
+		command
 	done
 }
 
