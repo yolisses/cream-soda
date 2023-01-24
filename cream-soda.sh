@@ -3,7 +3,7 @@ run_traffic() {
 	requests=(2000 10000 20000)
 	for index in ${!clients[@]}; do
 		filename=cubic_${TCP_STRATEGY}_${SERVER_TYPE}_escalonamento$index
-		ssh $HOST_URL ab -c $clients[$index] -n $requests[$index] \
+		ssh $HOST_SSH ab -c $clients[$index] -n $requests[$index] \
 			-e $filename.csv $SERVER_URL \
 			>${filename}_out.txt
 	done
@@ -37,8 +37,11 @@ servers=("nginx" "apache2")
 strategies=("cubic" "bic" "westwood" "htcp" "hybla" "vegas" "nv" "scalable" "lp" "veno" "yeah" "illinois" "dctcp" "cdg" "bbr")
 
 echo "running with:"
-echo "HOST_URL=$HOST_URL"
+echo "HOST_SSH=$HOST_SSH"
 echo "SERVER_URL=$SERVER_URL"
+
+SERVER_URL=192.168.1.244/djset3.mp3
+HOST_SSH=djr@192.168.1.210
 
 for server in ${servers[@]}; do
 	update_server $server
