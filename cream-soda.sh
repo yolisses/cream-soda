@@ -7,7 +7,7 @@ run_traffic() {
 		filename="cubic_${TCP_STRATEGY}_${SERVER_TYPE}_escalonamento${index+ 1}"
 		command="ssh $HOST_SSH ab -c $c -n $n -e $filename.csv $SERVER_URL >${filename}_out.txt"
 		echo $command
-		command
+		$command
 	done
 }
 
