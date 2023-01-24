@@ -19,29 +19,33 @@ update_server() {
 	export SERVER_TYPE=$1
 	if [ "$SERVER_TYPE" = "apache2" ]; then
 		echo "changing to apache2"
-		service nginx stop
-		service apache2 start
+		docker exec $DOCKER_ID service nginx stop
+		docker exec $DOCKER_ID service apache2 start
 	elif [ "$SERVER_TYPE" = "nginx" ]; then
 		echo "changing to nginx"
-		service apache2 stop
-		service nginx start
+		docker exec $DOCKER_ID service apache2 stop
+		docker exec $DOCKER_ID service nginx start
 	else
 		echo "error using SERVER_TYPE value '$SERVER_TYPE'"
 		exit 1
 	fi
-	service apache2 status | cat
-	service nginx status | cat
+	docker exec $DOCKER_ID service apache2 status | cat
+	docker exec $DOCKER_ID service nginx status | cat
 }
 
 servers=("nginx" "apache2")
 strategies=("cubic" "bic" "westwood" "htcp" "hybla" "vegas" "nv" "scalable" "lp" "veno" "yeah" "illinois" "dctcp" "cdg" "bbr")
 
-SERVER_URL=192.168.1.244/djset3.mp3
+DOCKER_ID=3baffa361132
 HOST_SSH=djr@192.168.1.210
+SERVER_URL=192.168.1.244/djset3.mp3
 
 echo "running with:"
 echo "HOST_SSH=$HOST_SSH"
+echo "DOCKER_ID=$DOCKER_ID"
 echo "SERVER_URL=$SERVER_URL"
+
+docker start $DOCKER_ID
 
 for server in ${servers[@]}; do
 	update_server $server
