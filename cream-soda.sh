@@ -7,8 +7,8 @@ run_traffic() {
 			-e $filename.csv $SERVER_URL \
 			>${filename}_out.txt
 		echo "ssh $HOST_SSH ab -c $clients[$index] -n $requests[$index] \
-			-e $filename.csv $SERVER_URL \
-			>${filename}_out.txt"
+-e $filename.csv $SERVER_URL \
+>${filename}_out.txt"
 	done
 }
 
@@ -41,7 +41,7 @@ strategies=("cubic" "bic" "westwood" "htcp" "hybla" "vegas" "nv" "scalable" "lp"
 
 DOCKER_ID=3baffa361132
 HOST_SSH="djr@192.168.1.210"
-SERVER_URL=192.168.1.244/djset3.mp3
+SERVER_URL="https://labredes.br/djset3.mp3"
 
 echo "running with:"
 echo "HOST_SSH=$HOST_SSH"
