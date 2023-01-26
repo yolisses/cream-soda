@@ -42,7 +42,7 @@ strategies=("cubic" "bic" "westwood" "htcp" "hybla" "vegas" "nv" "scalable" "lp"
 
 DOCKER_ID=3baffa361132
 HOST_SSH="djr@192.168.1.210"
-SERVER_URL="https://www.labredes.br/djset.mp3"
+SERVER_URL="https://www.labredes.br/index.html"
 
 echo "running with:"
 echo "HOST_SSH=$HOST_SSH"
